@@ -23,28 +23,28 @@ class MemberServiceIntegrationTest {
 
     @Test
     void 회원가입()  throws Exception {
-        //given
+        //Given
         Member member = new Member();
         member.setName("hello");
 
-        //when
+        //When
         Long saveId = memberService.join(member);
 
-        //then
+        //Then
         Member findMember = memberService.findOne(saveId).get();
         assertEquals(member.getName(), findMember.getName());
     }
 
     @Test
     public void 중복_회원_예외() throws Exception {
-        //given
+        //Given
         Member member1 = new Member();
         member1.setName("spring");
 
         Member member2 = new Member();
         member2.setName("spring");
 
-        //when
+        //When
         memberService.join(member1);
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> memberService.join(member2));//예외가 발생해야 함.
