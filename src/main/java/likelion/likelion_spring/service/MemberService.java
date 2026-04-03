@@ -2,12 +2,12 @@ package likelion.likelion_spring.service;
 
 import likelion.likelion_spring.domain.Member;
 import likelion.likelion_spring.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
