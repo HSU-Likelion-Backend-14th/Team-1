@@ -1,6 +1,7 @@
 package likelion.likelion_spring.service;
 
 import likelion.likelion_spring.repository.JdbcMemberRepository;
+import likelion.likelion_spring.repository.JdbcTemplateMemberRepository;
 import likelion.likelion_spring.repository.MemberRepository;
 import likelion.likelion_spring.repository.MemoryMemberRepository;
 import likelion.likelion_spring.service.MemberService;
@@ -15,7 +16,7 @@ import javax.swing.*;
 @Configuration
 public class SpringConfig {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     @Autowired
     public SpringConfig(DataSource dataSource) {
@@ -29,6 +30,8 @@ public class SpringConfig {
 
     @Bean
     public MemberRepository memberRepository() {
-        return new JdbcMemberRepository(dataSource);
+    //  return new MemoryMEmberREpository();
+    //  return new JdbcMemberRepository(dataSource);
+        return new JdbcTemplateMemberRepository(dataSource);
     }
 }
