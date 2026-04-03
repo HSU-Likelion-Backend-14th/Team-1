@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 
-@Repository
+//@Repository
 // 얘도 이게 있으면 스프링이 알아서 처리해줌. 커트롤러 서비스 리포지토리를 가지고 올라온다.
 public class MemoryMemberRepository implements MemberRepository {
 
