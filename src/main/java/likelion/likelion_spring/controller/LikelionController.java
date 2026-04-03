@@ -15,6 +15,16 @@ public class LikelionController {
         model.addAttribute("data","hello!!");
         return "hello";
     }
-    
+    @GetMapping("hello-mvc")
+    public String helloMvc(@RequestParam("name") String name, Model model) {
+        model.addAttribute("name",name);
+        return "hello-template";
+    }
+
+    @GetMapping("hello-string")
+    @ResponseBody
+    public String helloString(@RequestParam("name") String name) {
+        return "hello " +name;
+    }
 
 }
