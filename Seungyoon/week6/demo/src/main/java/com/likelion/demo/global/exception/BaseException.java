@@ -1,7 +1,12 @@
 package com.likelion.demo.global.exception;
 
+
+import com.likelion.demo.global.response.code.BaseResponseCode;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public class BaseException extends RuntimeException {
-  public BaseException(String message) {
-    super(message);
-  }
+    private final BaseResponseCode baseResponseCode;
 }
