@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> saveUser(
-            @Valid @RequestBody UserSaveReq req)
+            @Valid @RequestBody UserSaveReq req
     ){
         userService.save(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(SuccessResponse.empty());

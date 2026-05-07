@@ -1,5 +1,6 @@
 package com.likelion.demo.domain.user.service;
 
+import com.likelion.demo.domain.user.exception.UserAlreadyExistException;
 import com.likelion.demo.domain.user.repository.UserRepository;
 import com.likelion.demo.domain.user.web.dto.UserSaveReq;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,10 @@ public class UserService {
                 .isPresent(user -> {
                     throw new UserAlreadyExistException();
                 });
+        User user = user.builder()
+                .username(req.getUserName())
+                .gender(req.getGender())
+                .build();
+        userRepository.save(user);
     }
 }
