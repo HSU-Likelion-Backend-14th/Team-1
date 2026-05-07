@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException; // 추가된 import
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -21,7 +22,7 @@ public class GlobalExceptionHandler {
     // 필드에 선언된 검증 조건 위반 시 발생
     // NotBlank(message = "이름은 필수입니다.")
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse<?>>handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ResponseEntity<ErrorResponse<?>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
         log.error("MethodArgumentNotValidException : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.of(ErrorResponseCode.INVALID_HTTP_MESSAGE_BODY, e.getFieldError().getDefaultMessage());
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
@@ -30,7 +31,7 @@ public class GlobalExceptionHandler {
     // 선언된 검증 조건 위반 시 발생
     // 키워드가 비어있거나, 바운더리를 넘어가거나 최소값을 지키지 못했을 경우
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<ErrorResponse<?>>handleBindException(BindException e){
+    public ResponseEntity<ErrorResponse<?>> handleBindException(BindException e){
         log.error("BindException : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.of(ErrorResponseCode.INVALID_HTTP_MESSAGE_BODY, e.getFieldError().getDefaultMessage());
         return ResponseEntity.status((errorResponse.getHttpStatus())).body(errorResponse);
@@ -38,23 +39,23 @@ public class GlobalExceptionHandler {
 
     // RequestBody 등으로 전달 받은 JSON 바디의 파싱이 실패 했을 때
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse<?>>handleHttpMessageNotReadableException(HttpMessageNotReadableException e){
+    public ResponseEntity<ErrorResponse<?>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e){
         log.error("HttpMessageNotReadableException : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.from(ErrorResponseCode.INVALID_HTTP_MESSAGE_BODY);
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
     }
 
-    // 요청 파라미터 타입 변환에 실패 했을 때
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse<?>>handleMethodArgumentTypeMismatchException(MethodArgumentNotValidException e){
-        log.error("MethodArgumentNotValidException : {}", e.getMessage(), e);
+    // 요청 파라미터 타입 변환에 실패 했을 때 (수정됨)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse<?>> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e){
+        log.error("MethodArgumentTypeMismatchException : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.from(ErrorResponseCode.INVALID_HTTP_MESSAGE_BODY);
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
     }
 
-    // Request Part 누락 시 발생
+    // Request 파라미터 누락 시 발생 (수정됨)
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ErrorResponse<?>>handleMissingServletRequestPArtException(MethodArgumentNotValidException e){
+    public ResponseEntity<ErrorResponse<?>> handleMissingServletRequestParameterException(MissingServletRequestParameterException e){
         log.error("MissingServletRequestParameterException : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.from(ErrorResponseCode.INVALID_HTTP_MESSAGE_BODY);
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
@@ -62,31 +63,31 @@ public class GlobalExceptionHandler {
 
     // 지원하지 않는 HTTP 메소드를 호출할 경우
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ErrorResponse<?>>handleHttpRequestMethodNotSupportException(HttpMessageNotReadableException e){
-        log.error("MissingServletRequestParameterException : {}", e.getMessage(), e);
+    public ResponseEntity<ErrorResponse<?>> handleHttpRequestMethodNotSupportException(HttpRequestMethodNotSupportedException e){
+        log.error("HttpRequestMethodNotSupportedException : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.from(ErrorResponseCode.UNSUPPORTED_HTTP_METHOD);
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
     }
 
-    //존재하지 않는 엔드포인트
+    // 존재하지 않는 엔드포인트
     @ExceptionHandler(NoHandlerFoundException.class)
-    public ResponseEntity<ErrorResponse<?>>handleNoHandlerFoundException(NoHandlerFoundException e){
+    public ResponseEntity<ErrorResponse<?>> handleNoHandlerFoundException(NoHandlerFoundException e){
         log.error("NoHandlerFoundException : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.from(ErrorResponseCode.NOT_FOUND_ENDPOINT);
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
     }
 
-    // 정적 리소스도 찾지 못했을 때 발생
+    // 정적 리소스도 찾지 못했을 때 발생 (수정됨)
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<ErrorResponse<?>>handleNoResourceFoundException(NoHandlerFoundException e){
-        log.error("NoHandlerFoundException : {}", e.getMessage(), e);
+    public ResponseEntity<ErrorResponse<?>> handleNoResourceFoundException(NoResourceFoundException e){
+        log.error("NoResourceFoundException : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.from(ErrorResponseCode.NOT_FOUND_ENDPOINT);
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
     }
 
     // 비즈니스 로직 에러
     @ExceptionHandler(BaseException.class)
-    public ResponseEntity<ErrorResponse<?>>handleBaseException(BaseException e){
+    public ResponseEntity<ErrorResponse<?>> handleBaseException(BaseException e){
         log.error("BaseException : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.from(e.getBaseResponseCode());
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
@@ -94,7 +95,7 @@ public class GlobalExceptionHandler {
 
     // 나머지 예외 처리
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse<?>>handleException(Exception e){
+    public ResponseEntity<ErrorResponse<?>> handleException(Exception e){
         log.error("Exception : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.from(ErrorResponseCode.SERVER_ERROR);
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
