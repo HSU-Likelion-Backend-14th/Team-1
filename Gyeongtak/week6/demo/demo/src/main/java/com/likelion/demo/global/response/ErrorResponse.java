@@ -30,7 +30,7 @@ public class ErrorResponse<T> extends BaseResponse{
         return new ErrorResponse<>(null, baseResponseCode);
     }
 
-    public static ErrorResponse<?> from(BaseResponseCode baseResponseCode, String message){
+    public static ErrorResponse<?> of(BaseResponseCode baseResponseCode, String message){
         return new ErrorResponse<>(null, baseResponseCode, message);
     }
 
