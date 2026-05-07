@@ -89,7 +89,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse<?>> handleBaseException(BaseException e) {
         log.error("BaseException : {}", e.getBaseResponseCode().getMessage(), e);
         ErrorResponse<?> errorResponse = ErrorResponse.from(e.getBaseResponseCode());
-        return ResponseEntity.status(errorResponse.getHttpStatus()).collect().body(errorResponse);
+        return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
     }
 
     // 나머지 예외 처리
