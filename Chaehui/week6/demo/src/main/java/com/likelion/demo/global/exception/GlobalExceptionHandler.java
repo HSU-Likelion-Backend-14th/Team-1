@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     }
 
     // ResquestBody 등으로 전달받은 JSON 바디의 파싱이 실패했을 때
-    @ExceptionHandler(BindException.class)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse<?>>handlerHttpMessageNotReadableException(HttpMessageNotReadableException e){
         log.error("HttpMessageNotReadableException : {}", e.getMessage(), e);
         ErrorResponse<?> errorResponse= ErrorResponse.from(ErrorResponseCode.INVALID_HTTP_MESSAGE_BODY);

@@ -6,7 +6,6 @@ import com.likelion.demo.global.response.code.SuccessResponseCode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import tools.jackson.core.ObjectReadContext;
 
 @Getter
 @ToString

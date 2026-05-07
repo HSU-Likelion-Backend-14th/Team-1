@@ -14,4 +14,5 @@ public class UserSaveReq {
 
     @NotNull(message="성별을 입력해주세요.")
     private Gender gender;
+
 }
