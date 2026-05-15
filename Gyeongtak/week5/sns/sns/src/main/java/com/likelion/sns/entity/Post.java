@@ -12,11 +12,10 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "Post")
 @Getter
-@Setter
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer postId;
+    private Long postId;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
@@ -25,7 +24,7 @@ public class Post {
     private Integer viewCount = 0;
 
     @Column(name = "create_at", updatable = false)
-    @UpdateTimestamp
+    @CreationTimestamp
     private LocalDateTime createAt;
 
     @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩

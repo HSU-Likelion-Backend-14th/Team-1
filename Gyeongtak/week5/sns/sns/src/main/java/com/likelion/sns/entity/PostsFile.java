@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "posts_file")
 @Getter
-@Setter
 public class PostsFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

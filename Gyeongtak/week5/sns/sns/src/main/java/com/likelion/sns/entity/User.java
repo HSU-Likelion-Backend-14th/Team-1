@@ -12,11 +12,10 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Getter
-@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "login_id", nullable = false, unique = true, length = 50)
     private String loginId;
@@ -28,7 +27,7 @@ public class User {
     private String nickname;
 
     @Column(name = "created_at", updatable = false)
-    @CreationTimestamp //@Colunm 옵션에 columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP" 추가
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
 
