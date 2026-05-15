@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -11,11 +12,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "chat_room")
 @Getter
-@Setter
 public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer roomId;
+    private long roomId;
 
     @Column(nullable = false, length = 255)
     private String name;
@@ -28,6 +28,6 @@ public class ChatRoom {
     private LocalDateTime createdAt;
 
     @Column(name = "update_at", updatable = true)
-    @CreationTimestamp
+    @UpdateTimestamp
     private LocalDateTime updateAt;
 }

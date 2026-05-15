@@ -10,11 +10,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "chat")
 @Getter
-@Setter
 public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer chatId;
+    private long chatId;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
